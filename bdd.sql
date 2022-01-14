@@ -1,4 +1,4 @@
-BEGIN TRASACTION;
+BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS mesures;
 
@@ -18,12 +18,11 @@ DROP TABLE IF EXISTS capteurs;
 
 CREATE TABLE capteurs
     (idcap TEXT PRIMARY KEY,
-    donnee TEXT NOT NULL,
-    ipcap TEXT NOT NULL);
+    donnee TEXT NOT NULL);
 
-INSERT INTO mesures VALUES("001", "temperature", "192.168.1.11"); -- syntaxe à respecter
-INSERT INTO mesures VALUES("002", "humidite", "192.168.1.12");
-INSERT INTO mesures VALUES("003", "pression", "192.168.1.13");
+INSERT INTO capteurs VALUES("001", "temperature"); -- syntaxe à respecter
+INSERT INTO capteurs VALUES("002", "humidite");
+INSERT INTO capteurs VALUES("003", "pression");
 
 DROP TABLE IF EXISTS types;
 
@@ -38,8 +37,9 @@ INSERT INTO types VALUES("pression", "hPa");
 DROP TABLE IF EXISTS afficheurs;
 
 CREATE TABLE afficheurs
-    (idaff TEXT NOT NULL,
-    ipaff TEXT NOT NULL);
+    (idaff TEXT NOT NULL);
 
-INSERT INTO afficheurs VALUES("01", "192.168.1.21");
-INSERT INTO afficheurs VALUES("02", "192.168.1.22");
+INSERT INTO afficheurs VALUES("01");
+INSERT INTO afficheurs VALUES("02");
+
+END TRANSACTION;
