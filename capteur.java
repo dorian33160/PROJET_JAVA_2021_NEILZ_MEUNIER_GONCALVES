@@ -7,20 +7,20 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class capteur implements MqttCallback {
 
 MqttClient client;
 
-public capteur() {
-}
 
-public static void main(String[] args) {
+public static void main(String[] args) throws Exception {
     new capteur().doDemo();
 }
 
-public void doDemo() {
+public void doDemo() throws Exception {
     try {
         String uri = "tcp://test.mosquitto.org:1883";
         String clientID = UUID.randomUUID().toString();
@@ -31,13 +31,20 @@ public void doDemo() {
 
         client.connect();
         client.setCallback(this);
+        int min=-20;
+        int max=40;
+        while(true) {
+            int valeur = ThreadLocalRandom.current().nextInt(min, max + 1);
+            System.out.println(valeur);
+            String strval = Integer.toString(valeur);
+            MqttMessage message = new MqttMessage();
+            message.setPayload(strval.getBytes());
+            // System.out.println("*** msgId = "+message.getId());
+            client.publish("foo", message);
+            TimeUnit.SECONDS.sleep(2);
+        }
 
-        MqttMessage message = new MqttMessage();
-        message.setPayload("A single message from my computer".getBytes());
-        System.out.println("*** msgId = "+message.getId());
-        client.publish("foo", message);
-
-        client.disconnect();
+        // client.disconnect();
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -55,7 +62,7 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
 
 @Override
 public void deliveryComplete(IMqttDeliveryToken token) {
-    System.out.println("Delivery complete...");
+    // System.out.println("Delivery complete...");
 }
 
 }
