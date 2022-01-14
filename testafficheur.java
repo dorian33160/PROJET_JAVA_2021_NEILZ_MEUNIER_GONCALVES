@@ -7,15 +7,15 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class centrale implements MqttCallback {
+public class testafficheur implements MqttCallback {
 
 MqttClient client;
 
-public centrale() {
+public testafficheur() {
 }
 
 public static void main(String[] args) {
-    new centrale().doDemo();
+    new testafficheur().doDemo();
 }
 
 public void doDemo() {
@@ -29,7 +29,7 @@ public void doDemo() {
 
         client.connect();
         client.setCallback(this);
-        client.subscribe("foo");
+        client.subscribe("neilzmeunier");
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -43,9 +43,6 @@ public void connectionLost(Throwable cause) {
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
     System.out.println("["+topic+"] "+message);
-    //message.setPayload("A single message from my computer".getBytes());
-    System.out.println("*** msgId = "+message.getId());
-    client.publish("neilzmeunier", message);
 }
 
 @Override
