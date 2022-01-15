@@ -22,7 +22,7 @@ public static void main(String[] args) throws Exception {
 
 public void doDemo() throws Exception {
     try {
-        String uri = "tcp://test.mosquitto.org:1883";
+        String uri = "tcp://calixte.ovh:4207";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
         System.out.println("*** uri = "+uri);
