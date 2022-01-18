@@ -15,20 +15,18 @@ public class capteur implements MqttCallback {
 
 MqttClient client;
 
-
 public static void main(String[] args) throws Exception {
     new capteur().doDemo();
 }
 
 public void doDemo() throws Exception {
     try {
-        String uri = "tcp://calixte.ovh:4207";
+        String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
         System.out.println("*** uri = "+uri);
         System.out.println("*** UUID = "+clientID);
         client = new MqttClient(uri, clientID, persistence);
-
         client.connect();
         client.setCallback(this);
         int min=-20;

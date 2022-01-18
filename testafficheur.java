@@ -20,7 +20,7 @@ public static void main(String[] args) {
 
 public void doDemo() {
     try {
-        String uri = "tcp://calixte.ovh:4207";
+        String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
         System.out.println("*** uri = "+uri);
