@@ -29,7 +29,16 @@ public void doDemo() {
 
         client.connect();
         client.setCallback(this);
-        client.subscribe("foo");
+        client.subscribe("capteur1");
+        client.subscribe("capteur2");
+        client.subscribe("capteur3");
+        client.subscribe("capteur4");
+        client.subscribe("capteur5");
+        client.subscribe("capteur6");
+        client.subscribe("capteur7");
+        client.subscribe("capteur8");
+        client.subscribe("capteur9");
+        client.subscribe("capteur10");
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -44,13 +53,14 @@ public void connectionLost(Throwable cause) {
 public void messageArrived(String topic, MqttMessage message) throws Exception {
     System.out.println("["+topic+"] "+message);
     //message.setPayload("A single message from my computer".getBytes());
-    System.out.println("*** msgId = "+message.getId());
-    client.publish("neilzmeunier", message);
+    // System.out.println("*** msgId = "+message.getId());
+    String canal = topic.substring(topic.length() - 1);
+    client.publish("afficheur"+canal, message);
 }
 
 @Override
 public void deliveryComplete(IMqttDeliveryToken token) {
-    System.out.println("Delivery complete...");
+    // System.out.println("Delivery complete...");
 }
 
 }

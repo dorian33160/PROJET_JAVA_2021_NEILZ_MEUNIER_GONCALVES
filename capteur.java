@@ -16,10 +16,10 @@ public class capteur implements MqttCallback {
 MqttClient client;
 
 public static void main(String[] args) throws Exception {
-    new capteur().doDemo();
+    new capteur().doDemo(args);
 }
 
-public void doDemo() throws Exception {
+public void doDemo(String[] args) throws Exception {
     try {
         String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
@@ -38,7 +38,7 @@ public void doDemo() throws Exception {
             MqttMessage message = new MqttMessage();
             message.setPayload(strval.getBytes());
             // System.out.println("*** msgId = "+message.getId());
-            client.publish("foo", message);
+            client.publish(args[0], message);
             TimeUnit.SECONDS.sleep(2);
         }
 
