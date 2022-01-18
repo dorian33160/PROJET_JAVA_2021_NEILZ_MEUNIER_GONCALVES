@@ -15,21 +15,22 @@ public afficheur() {
 }
 
 public static void main(String[] args) {
-    new afficheur().doDemo();
+    new afficheur().doDemo(args);
 }
 
-public void doDemo() {
+public void doDemo(String[] args) {
     try {
         String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
         System.out.println("*** uri = "+uri);
         System.out.println("*** UUID = "+clientID);
+        System.out.println("*** Nom Afficheur = "+args[0]);
         client = new MqttClient(uri, clientID, persistence);
 
         client.connect();
         client.setCallback(this);
-        client.subscribe("foo");
+        client.subscribe(args[0]);
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -42,7 +43,7 @@ public void connectionLost(Throwable cause) {
 
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
-    System.out.println("["+topic+"] "+message);   
+    System.out.println("["+topic+"] "+message);
 }
 
 @Override
