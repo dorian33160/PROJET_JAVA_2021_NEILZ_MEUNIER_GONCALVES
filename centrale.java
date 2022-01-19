@@ -4,19 +4,50 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class centrale implements MqttCallback {
-
+private static ArrayList<String[]> valeurs = new ArrayList<>();
 MqttClient client;
 
-public centrale() {
+public void centrale() {
 }
 
 public static void main(String[] args) {
     new centrale().doDemo();
+    
 }
+
+public void stocker(String topic,String x){
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+        Calendar calendar = Calendar.getInstance();
+        String[] ajout= {topic,x,String.valueOf(format.format(calendar.getTime()))};
+        this.valeurs.add(ajout); 
+        int a= this.valeurs.size();
+        if (a==10){
+            afficher();
+            a=0;
+        }        
+        }
+
+public static void afficher(){
+    for (String[] tab: valeurs) {
+        for (String s: tab) {
+            System.out.print(s + "\t");
+        }
+        System.out.println("\n");
+        }
+    }
 
 public void doDemo() {
     try {
@@ -56,6 +87,11 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
     // System.out.println("*** msgId = "+message.getId());
     String canal = topic.substring(topic.length() - 1);
     client.publish("afficheur"+canal, message);
+    if (message != null){
+        String info = message.toString();
+        String test= canal.toString();
+        stocker(canal,info);
+    }
 }
 
 @Override
