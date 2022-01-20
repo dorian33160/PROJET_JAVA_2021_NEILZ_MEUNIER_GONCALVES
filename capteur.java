@@ -29,6 +29,15 @@ public void doDemo(String[] args) throws Exception {
         client = new MqttClient(uri, clientID, persistence);
         client.connect();
         client.setCallback(this);
+
+        // Le capteur s'annonce à la centrale sur le canal "annonce"
+        MqttMessage annonce = new MqttMessage();
+        String canalcapt = "capteur"+args[0];
+        annonce.setPayload(canalcapt.getBytes());
+        client.publish("annonce", annonce);
+        System.out.println("Annonce ok");
+
+        // Une fois annoncé, il commence à envoyer ses données
         int min=-20;
         int max=40;
         while(true) {
@@ -37,8 +46,7 @@ public void doDemo(String[] args) throws Exception {
             String strval = Integer.toString(valeur);
             MqttMessage message = new MqttMessage();
             message.setPayload(strval.getBytes());
-            // System.out.println("*** msgId = "+message.getId());
-            client.publish(args[0], message);
+            client.publish(canalcapt, message);
             TimeUnit.SECONDS.sleep(2);
         }
 
