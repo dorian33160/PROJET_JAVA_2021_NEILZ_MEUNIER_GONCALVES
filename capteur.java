@@ -40,13 +40,21 @@ public void doDemo(String[] args) throws Exception {
         // Une fois annoncé, il commence à envoyer ses données
         int min=-20;
         int max=40;
+        int valeur = ThreadLocalRandom.current().nextInt(min, max + 1);
+        int proba;
         while(true) {
-            int valeur = ThreadLocalRandom.current().nextInt(min, max + 1);
             System.out.println(valeur);
             String strval = Integer.toString(valeur);
             MqttMessage message = new MqttMessage();
             message.setPayload(strval.getBytes());
             client.publish(canalcapt, message);
+            proba = ThreadLocalRandom.current().nextInt(0, 100);
+            if(proba<25) {
+                valeur--;
+            }
+            else if(proba>=75) {
+                valeur++;
+            }
             TimeUnit.SECONDS.sleep(2);
         }
 
