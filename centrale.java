@@ -82,7 +82,8 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
         client.subscribe(message.toString());
         System.out.println(message+" OK");
     }
-    String canal = topic.substring(topic.length() - 1);
+    String canal = topic.toString().replaceAll("[^0-9]", "");
+    System.out.println(canal);
     client.publish("afficheur"+canal, message);
     if (message != null){
         String info = message.toString();
