@@ -26,11 +26,14 @@ public void doDemo(String[] args) {
         System.out.println("*** uri = "+uri);
         System.out.println("*** UUID = "+clientID);
         System.out.println("*** Nom Afficheur = "+args[0]);
+
+        String canalaff = "afficheur"+args[0];
+
         client = new MqttClient(uri, clientID, persistence);
 
         client.connect();
         client.setCallback(this);
-        client.subscribe(args[0]);
+        client.subscribe(canalaff);
     } catch (MqttException e) {
         e.printStackTrace();
     }
