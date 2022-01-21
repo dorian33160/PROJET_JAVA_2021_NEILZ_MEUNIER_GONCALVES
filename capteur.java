@@ -14,9 +14,11 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class capteur implements MqttCallback {
 
 MqttClient client;
+private MqttMessage annonce = new MqttMessage();
 
 public static void main(String[] args) throws Exception {
     new capteur().doDemo(args);
+
 }
 
 public void doDemo(String[] args) throws Exception {
@@ -24,18 +26,20 @@ public void doDemo(String[] args) throws Exception {
         String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
-        System.out.println("*** uri = "+uri);
-        System.out.println("*** UUID = "+clientID);
+        // System.out.println("*** uri = "+uri);    // DEBUG MQTT
+        // System.out.println("*** UUID = "+clientID);  // DEBUG MQTT
         client = new MqttClient(uri, clientID, persistence);
         client.connect();
         client.setCallback(this);
 
+        // Le client s'abonne au canal d'anonce au cas où une centrale démarre après lui
+        client.subscribe("annonce");
+
         // Le capteur s'annonce à la centrale sur le canal "annonce"
-        MqttMessage annonce = new MqttMessage();
         String canalcapt = "capteur"+args[0];
         annonce.setPayload(canalcapt.getBytes());
         client.publish("annonce", annonce);
-        System.out.println("Annonce ok");
+        System.out.println("[Capteur] Bonjour");
 
         // Une fois annoncé, il commence à envoyer ses données
         int min=-20;
@@ -71,7 +75,11 @@ public void connectionLost(Throwable cause) {
 
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
-    System.out.println("["+topic+"] "+message);   
+    System.out.println("["+topic+"] "+message);
+    if(topic.toString().equals("annonce")&&message.toString().equals("disponible")) { // Regarde si le message reçu est l'annonce de démarrage d'une centrale
+        client.publish("annonce", annonce);
+        System.out.println("Annonce ok");
+    }
 }
 
 @Override

@@ -25,7 +25,6 @@ public void centrale() {
 
 public static void main(String[] args) {
     new centrale().doDemo();
-    
 }
 
 public void stocker(String topic,String x){
@@ -60,7 +59,12 @@ public void doDemo() {
 
         client.connect();
         client.setCallback(this);
+        // La centrale demande aux capteurs déjà démarrés de s'annoncer à nouveau
+        MqttMessage centraleEnLigne = new MqttMessage();
+        String demarrage = "disponible";
+        centraleEnLigne.setPayload(demarrage.getBytes());
         client.subscribe("annonce");
+        client.publish("annonce", centraleEnLigne);
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -74,9 +78,9 @@ public void connectionLost(Throwable cause) {
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
     System.out.println("["+topic+"] "+message);
-    if (topic.toString().equals("annonce")) {
+    if (topic.toString().equals("annonce")&&!message.toString().equals("disponible")) {
         client.subscribe(message.toString());
-        System.out.println("Abonne a "+message);
+        System.out.println(message+" OK");
     }
     String canal = topic.substring(topic.length() - 1);
     client.publish("afficheur"+canal, message);
