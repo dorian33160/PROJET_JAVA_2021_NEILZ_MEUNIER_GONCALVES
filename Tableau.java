@@ -10,9 +10,13 @@ import java.util.Date;
 public class Tableau{
     private static ArrayList<String[]> valeurs = new ArrayList<>();
     private static ArrayList<ArrayList<ArrayList<String>>> donnees = new ArrayList<>();
-    private static ArrayList<ArrayList<String>> ligne = new ArrayList<>();
     private static ArrayList<String> capteurs = new ArrayList<>();
     private String capteur, valeur;
+
+    private DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+    private Calendar calendar = Calendar.getInstance();
+    private String date= String.valueOf(format.format(calendar.getTime()));
+
 
     public Tableau(){
     }
@@ -21,22 +25,16 @@ public class Tableau{
     public void stocker(String nom_capteur,String valeur){
         this.capteur=nom_capteur;
         this.valeur=valeur;
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
-        Calendar calendar = Calendar.getInstance();
-        String dates= String.valueOf(format.format(calendar.getTime()));
-        String[] carre= {this.capteur,this.valeur,dates};
+        String[] carre= {this.capteur,this.valeur,this.date};
         this.valeurs.add(carre);
 
-    }
+        }
 
 
     public void trier(String nom_capteur, String valeur){
         this.capteur=nom_capteur;
         this.valeur=valeur;
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
-        Calendar calendar = Calendar.getInstance();
-        String dates= String.valueOf(format.format(calendar.getTime()));
-        String[] care= {this.valeur,dates};
+        String[] care= {this.valeur,this.date};
         ArrayList<String> carre = new ArrayList<String>(
             Arrays.asList(care));
         int taille_capteurs=this.capteurs.size();
@@ -58,21 +56,24 @@ public class Tableau{
             lignes.add(carre);
             this.donnees.add(lignes);
             emplacement = (this.capteurs.indexOf(this.capteur));
+            System.out.println("donnees emplacement" + this.donnees.get(emplacement));
+            System.out.println("Capteur"+this.capteurs);
+            System.out.println("Donnees"+this.donnees);
         }
         else{
             ArrayList<ArrayList<String>> lignes = new ArrayList<>();
             lignes=this.donnees.get(emplacement);
-            if (lignes.size()>=2){
-                lignes.remove(0);
-                lignes.add(carre);
-                this.donnees.set(emplacement, lignes);
-            }
-            else{
-                lignes.add(carre);
-                this.donnees.set(emplacement, lignes);
-            }
-               
-        }        
+            lignes.add(carre);
+            this.donnees.set(emplacement, lignes);
+            System.out.println("donnees emplacement" + this.donnees.get(emplacement));
+            System.out.println("Capteur"+this.capteurs);
+            System.out.println("Donnees"+this.donnees);
+        }
+        System.out.println("");
+        System.out.println("");
+
+
+        
 
     }
 
@@ -83,11 +84,6 @@ public class Tableau{
             }
             System.out.println("\n");
             }
-    }
-
-    public String aligner(String cap){
-        int index= this.capteurs.indexOf(cap);
-        
     }
 
 }
