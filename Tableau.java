@@ -13,11 +13,6 @@ public class Tableau{
     private static ArrayList<String> capteurs = new ArrayList<>();
     private String capteur, valeur;
 
-    private DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
-    private Calendar calendar = Calendar.getInstance();
-    private String date= String.valueOf(format.format(calendar.getTime()));
-
-
     public Tableau(){
     }
 
@@ -25,7 +20,10 @@ public class Tableau{
     public void stocker(String nom_capteur,String valeur){
         this.capteur=nom_capteur;
         this.valeur=valeur;
-        String[] carre= {this.capteur,this.valeur,this.date};
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+        Calendar calendar = Calendar.getInstance();
+        String date= String.valueOf(format.format(calendar.getTime()));
+        String[] carre= {this.capteur,this.valeur,date};
         this.valeurs.add(carre);
 
         }
@@ -34,7 +32,10 @@ public class Tableau{
     public void trier(String nom_capteur, String valeur){
         this.capteur=nom_capteur;
         this.valeur=valeur;
-        String[] care= {this.valeur,this.date};
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+        Calendar calendar = Calendar.getInstance();
+        String date= String.valueOf(format.format(calendar.getTime()));
+        String[] care= {this.valeur,date};
         ArrayList<String> carre = new ArrayList<String>(
             Arrays.asList(care));
         int taille_capteurs=this.capteurs.size();
@@ -63,11 +64,21 @@ public class Tableau{
         else{
             ArrayList<ArrayList<String>> lignes = new ArrayList<>();
             lignes=this.donnees.get(emplacement);
-            lignes.add(carre);
-            this.donnees.set(emplacement, lignes);
-            System.out.println("donnees emplacement" + this.donnees.get(emplacement));
-            System.out.println("Capteur"+this.capteurs);
-            System.out.println("Donnees"+this.donnees);
+            if (lignes.size()>=2){
+                lignes.remove(0);
+                lignes.add(carre);
+                this.donnees.set(emplacement, lignes);
+                System.out.println("donnees emplacement" + this.donnees.get(emplacement));
+                System.out.println("Capteur"+this.capteurs);
+                System.out.println("Donnees"+this.donnees);
+            }
+            else{
+                lignes.add(carre);
+                this.donnees.set(emplacement, lignes);
+                System.out.println("donnees emplacement" + this.donnees.get(emplacement));
+                System.out.println("Capteur"+this.capteurs);
+                System.out.println("Donnees"+this.donnees);
+            }
         }
         System.out.println("");
         System.out.println("");
