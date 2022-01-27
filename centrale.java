@@ -68,7 +68,7 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
         String info = message.toString();
         String test= canal.toString();
         this.tableau.trier(canal,info);
-        this.tableau.aligner("1");
+        this.tableau.stocker(canal,info);
     }
 }
 
