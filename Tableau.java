@@ -61,7 +61,7 @@ public class Tableau{
         else{
             ArrayList<ArrayList<String>> lignes = new ArrayList<>();
             lignes=this.donnees.get(emplacement);
-            if (lignes.size()>=5){
+            if (lignes.size()>=10){
                 lignes.remove(0);
                 lignes.add(carre);
                 this.donnees.set(emplacement, lignes);
