@@ -10,7 +10,8 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class afficheur implements MqttCallback {
 
 MqttClient client;
-int i =10;
+int i =0;
+int test= 1; 
 
 public afficheur() {
 }
@@ -56,9 +57,18 @@ public void connectionLost(Throwable cause) {
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
     String canal = topic.toString().replaceAll("[0-9]", "");
+    if(canal.equals("historique")&&this.test==1){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("["+topic+"] "+message);
+        this.i=10;
+        this.test=0;
+    }
     if (canal.equals("historique")){
-        System.out.print("Prochaines donnes dans: "+this.i);
-        System.out.print("\n");
+        if (this.i<=3){
+            System.out.print("Prochaines donnes dans: "+this.i);
+            System.out.print("\n");
+        }
         if(this.i!=0){
             this.i=this.i-1;
         }
