@@ -10,7 +10,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class afficheur implements MqttCallback {
 
 MqttClient client;
-int i =5;
+int i =10;
 
 public afficheur() {
 }
@@ -66,7 +66,7 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
             System.out.print("\033[H\033[2J");
             System.out.flush();
             System.out.println("["+topic+"] "+message);
-            this.i=5;
+            this.i=10;
         }
         
     }
