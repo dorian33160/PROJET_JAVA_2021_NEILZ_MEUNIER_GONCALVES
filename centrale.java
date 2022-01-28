@@ -20,6 +20,7 @@ public class centrale implements MqttCallback {
 private static ArrayList<String[]> valeurs = new ArrayList<>();
 MqttClient client;
 Tableau tableau= new Tableau();
+csv obj_csv = new csv();
 
 public void centrale() {
 }
@@ -44,6 +45,7 @@ public void doDemo() {
         String demarrage = "disponible";
         centraleEnLigne.setPayload(demarrage.getBytes());
         client.subscribe("annonce");
+        client.subscribe("sauvegarde");
         client.publish("annonce", centraleEnLigne);
     } catch (MqttException e) {
         e.printStackTrace();
@@ -58,10 +60,22 @@ public void connectionLost(Throwable cause) {
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
     System.out.println("["+topic+"] "+message);
+    //Récupération de la date
+    DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+    Calendar calendar = Calendar.getInstance();
+    String date = String.valueOf(format.format(calendar.getTime()));
+
     if (topic.toString().equals("annonce")&&!message.toString().equals("disponible")) {
         client.subscribe(message.toString());
         System.out.println(message+" OK");
     }
+
+    if (topic.toString().equals("sauvegarde")) {
+        obj_csv.creation_csv();
+        System.out.println("Fermeture de la centrale");
+        System.exit(0);
+    }
+
     String canal = topic.toString().replaceAll("[^0-9]", "");
     client.publish("afficheur"+canal, message);
     String texte=this.tableau.totext(canal);
@@ -72,6 +86,7 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
         String info = message.toString();
         String test= canal.toString();
         this.tableau.trier(canal,info);
+        obj_csv.objets(topic,message.toString(),date);
     }
 }
 
