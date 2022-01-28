@@ -72,7 +72,7 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
 
     if (topic.toString().equals("sauvegarde")) {
         obj_csv.creation_csv();
-        System.out.printlt("Fermeture de la centrale");
+        System.out.println("Fermeture de la centrale");
         System.exit(0);
     }
 
