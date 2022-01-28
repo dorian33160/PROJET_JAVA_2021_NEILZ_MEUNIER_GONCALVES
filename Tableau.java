@@ -57,35 +57,20 @@ public class Tableau{
             lignes.add(carre);
             this.donnees.add(lignes);
             emplacement = (this.capteurs.indexOf(this.capteur));
-            System.out.println("donnees emplacement" + this.donnees.get(emplacement));
-            System.out.println("Capteur"+this.capteurs);
-            System.out.println("Donnees"+this.donnees);
         }
         else{
             ArrayList<ArrayList<String>> lignes = new ArrayList<>();
             lignes=this.donnees.get(emplacement);
-            if (lignes.size()>=2){
+            if (lignes.size()>=5){
                 lignes.remove(0);
                 lignes.add(carre);
                 this.donnees.set(emplacement, lignes);
-                System.out.println("donnees emplacement" + this.donnees.get(emplacement));
-                System.out.println("Capteur"+this.capteurs);
-                System.out.println("Donnees"+this.donnees);
             }
             else{
                 lignes.add(carre);
                 this.donnees.set(emplacement, lignes);
-                System.out.println("donnees emplacement" + this.donnees.get(emplacement));
-                System.out.println("Capteur"+this.capteurs);
-                System.out.println("Donnees"+this.donnees);
             }
-        }
-        System.out.println("");
-        System.out.println("");
-
-
-        
-
+        }     
     }
 
     public static void afficher(){
@@ -96,5 +81,29 @@ public class Tableau{
             System.out.println("\n");
             }
     }
+
+    public String totext (String valeur){
+        String contenu="\n";
+        int index= this.capteurs.indexOf(valeur);
+        if (index==-1){
+            valeur="Aucune capteur trouvé à ce nom";
+        }
+        else{
+            ArrayList<ArrayList<String>> lignes = new ArrayList<>();
+            lignes=this.donnees.get(index);
+            for(int i=0;i<lignes.size();i++){
+                ArrayList<String> cube = new ArrayList<>();
+                cube=lignes.get(i);
+                for(int x=0;x<cube.size();x++){
+                    String mot;
+                    mot=cube.get(x);
+                    contenu=contenu+" "+mot+ " ";
+                }
+                contenu=contenu + "\n";
+            }
+        }
+        return contenu; 
+    }
+    
 
 }

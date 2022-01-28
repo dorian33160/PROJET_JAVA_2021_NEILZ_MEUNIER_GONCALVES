@@ -10,6 +10,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class afficheur implements MqttCallback {
 
 MqttClient client;
+int i =5;
 
 public afficheur() {
 }
@@ -25,15 +26,23 @@ public void doDemo(String[] args) {
         MemoryPersistence persistence = new MemoryPersistence();
         System.out.println("*** uri = "+uri);
         System.out.println("*** UUID = "+clientID);
-        System.out.println("*** Nom Afficheur = "+args[0]);
+        System.out.println("*** Nom Afficheur = "+args[1]);
 
-        String canalaff = "afficheur"+args[0];
+        String canalaff = "afficheur"+args[1];
+        String canalhist = "historique"+args[1];
 
         client = new MqttClient(uri, clientID, persistence);
 
         client.connect();
         client.setCallback(this);
-        client.subscribe(canalaff);
+        if(args[0].equals("valeur")){
+            client.subscribe(canalaff);
+        }
+        if(args[0].equals("historique")){
+            client.subscribe(canalhist);
+        }
+        
+        
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -46,7 +55,27 @@ public void connectionLost(Throwable cause) {
 
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
-    System.out.println("["+topic+"] "+message);
+    String canal = topic.toString().replaceAll("[0-9]", "");
+    if (canal.equals("historique")){
+        System.out.print("Prochaines donnes dans: "+this.i);
+        System.out.print("\n");
+        if(this.i!=0){
+            this.i=this.i-1;
+        }
+        else{
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+            System.out.println("["+topic+"] "+message);
+            this.i=5;
+        }
+        
+    }
+    if (canal.equals("afficheur")){
+        System.out.println("["+topic+"] "+message);
+    }
+    
+    
+    
 }
 
 @Override

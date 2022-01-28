@@ -64,11 +64,14 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
     }
     String canal = topic.toString().replaceAll("[^0-9]", "");
     client.publish("afficheur"+canal, message);
+    String texte=this.tableau.totext(canal);
+    MqttMessage historique = new MqttMessage();
+    historique.setPayload(texte.getBytes());
+    client.publish("historique"+canal, historique);
     if (message != null&&!topic.equals("annonce")){
         String info = message.toString();
         String test= canal.toString();
         this.tableau.trier(canal,info);
-        this.tableau.stocker(canal,info);
     }
 }
 
