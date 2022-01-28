@@ -31,8 +31,14 @@ Rappel : la centrale transmet les informations du capteur X vers le canal de l&#
 
 La commande à utiliser est la suivante :
 
-```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java 1```
+```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java valeur 1```
 
-L&#39;afficheur lancé ainsi recevra les données du capteur 1.
+L&#39;afficheur lancé ainsi affichera les données en temps réel du capteur 1.
+
+On peut également utiliser la commande suivante :
+
+```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java historique 1```
+
+L'afficheur ainsi lancé montrera les 5 dernières valeurs du capteur 1, datées et mises à jour toutes les 10 secondes.
 
 Il est possible de créer autant d&#39;afficheurs que voulu. Si plusieurs afficheurs ont le même identifiant/canal, ils affichent exactement les mêmes valeurs. Si un afficheur est créé sur un canal ne disposant pas de capteur, aucune valeur n&#39;est affichée.
