@@ -70,7 +70,7 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
         System.out.println(message+" OK");
     }
 
-    if (topic.toString().equals("sauvegarde")) {
+    if (topic.toString().equals("stop")) {
         obj_csv.creation_csv();
         System.out.println("Fermeture de la centrale");
         System.exit(0);
@@ -91,8 +91,6 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
 }
 
 @Override
-public void deliveryComplete(IMqttDeliveryToken token) {
-    // System.out.println("Delivery complete...");
-}
+public void deliveryComplete(IMqttDeliveryToken token) {}
 
 }
