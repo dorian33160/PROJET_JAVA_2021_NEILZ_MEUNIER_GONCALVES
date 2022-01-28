@@ -33,7 +33,7 @@ La commande à utiliser est la suivante :
 
 ```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java valeur 1```
 
-L&#39;afficheur lancé ainsi affichera les données en temps réel du capteur 1.
+L&#39;afficheur ainsi lancé affichera les données en temps réel du capteur 1.
 
 On peut également utiliser la commande suivante :
 
