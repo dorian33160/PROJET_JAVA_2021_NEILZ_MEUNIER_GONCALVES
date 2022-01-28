@@ -45,7 +45,7 @@ public void doDemo() {
         String demarrage = "disponible";
         centraleEnLigne.setPayload(demarrage.getBytes());
         client.subscribe("annonce");
-        client.subscribe("sauvegarde");
+        client.subscribe("stop");
         client.publish("annonce", centraleEnLigne);
     } catch (MqttException e) {
         e.printStackTrace();
