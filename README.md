@@ -9,7 +9,7 @@
 
 Le démarrage de la centrale s&#39;effectue en entrant la commande suivante dans un terminal, en prenant garde à bien être positionné dans le dossier principal du projet :
 
-```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar ./centrale```
+```java -cp .:.\org.eclipse.paho.client.mqttv3-1.2.5.jar ./centrale```
 
 Dès lors, la centrale est opérationnelle.
 
@@ -17,7 +17,7 @@ Dès lors, la centrale est opérationnelle.
 
 Similairement au démarrage de la centrale, on peut démarrer un capteur avec la commande suivante :
 
-```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\capteur.java 1```
+```java -cp .:.\org.eclipse.paho.client.mqttv3-1.2.5.jar .\capteur.java 1```
 
 Cette commande lance un capteur sur le canal 1. En remplaçant le 1 par n&#39;importe quel nombre, on peut lancer un capteur sur le canal correspondant.
 
@@ -31,13 +31,13 @@ Rappel : la centrale transmet les informations du capteur X vers le canal de l&#
 
 La commande à utiliser est la suivante :
 
-```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java valeur 1```
+```java -cp .:.\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java valeur 1```
 
 L&#39;afficheur ainsi lancé affichera les données en temps réel du capteur 1.
 
 On peut également utiliser la commande suivante :
 
-```java -cp .\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java historique 1```
+```java -cp .:.\org.eclipse.paho.client.mqttv3-1.2.5.jar .\afficheur.java historique 1```
 
 L'afficheur ainsi lancé montrera les 5 dernières valeurs du capteur 1, datées et mises à jour toutes les 10 secondes.
 
