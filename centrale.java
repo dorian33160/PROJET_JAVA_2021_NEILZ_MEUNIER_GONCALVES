@@ -19,7 +19,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class centrale implements MqttCallback {
 private static ArrayList<String[]> valeurs = new ArrayList<>();
 MqttClient client;
-Tableau tableau= new Tableau();
+Tableau tableau= new Tableau(); //On crée un Objet Tableau qui permet de gérer le stockage
 csv obj_csv = new csv();
 
 public void centrale() {
@@ -78,14 +78,14 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
 
     String canal = topic.toString().replaceAll("[^0-9]", "");
     client.publish("afficheur"+canal, message);
-    String texte=this.tableau.totext(canal);
-    MqttMessage historique = new MqttMessage();
-    historique.setPayload(texte.getBytes());
-    client.publish("historique"+canal, historique);
-    if (message != null&&!topic.equals("annonce")){
-        String info = message.toString();
+    String texte=this.tableau.totext(canal);                    //On récupére les valeurs des capteurs
+    MqttMessage historique = new MqttMessage();                 //On le transforme dans le bon format
+    historique.setPayload(texte.getBytes());                    
+    client.publish("historique"+canal, historique);             ////On les envoie dans le canal destiné aux afficheurs
+    if (message != null&&!topic.equals("annonce")){             //Si le message n'est pas null et qu'il ne fait pas parti des annonces:
+        String info = message.toString();                       //On transforme les variables en String
         String test= canal.toString();
-        this.tableau.trier(canal,info);
+        this.tableau.trier(canal,info);                         //On envoie les informations pour pouvoir les stocker
         obj_csv.objets(topic,message.toString(),date);
     }
 }
