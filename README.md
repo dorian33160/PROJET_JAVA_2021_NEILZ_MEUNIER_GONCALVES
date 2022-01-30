@@ -2,7 +2,7 @@
 
 ## Prérequis :
 
-- Avoir téléchargé l&#39;ensemble des fichiers du projet
+- Avoir téléchargé l&#39;ensemble des fichiers du projet (avec l'archive fournie ou sur https://github.com/dorian33160/PROJET_JAVA_2021_NEILZ_MEUNIER_GONCALVES)
 - Avoir installé Java sur son ordinateur
 - Avoir compilé tous les fichiers Java
 Pour cela, utiliser la commande suivante :
