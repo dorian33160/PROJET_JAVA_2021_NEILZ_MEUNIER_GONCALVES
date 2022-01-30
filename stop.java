@@ -18,20 +18,20 @@ public void stop(){}
 
 public static void main(String[] args) throws Exception {
     new stop().doDemo();
-
 }
 
 public void doDemo() throws Exception {
     try {
+        // Se connecte au broker
         String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
         System.out.println("Sauvegarde des donnees et extinction de la centrale en cours...");
         client = new MqttClient(uri, clientID, persistence);
-
         client.connect();
         client.setCallback(this);
 
+        // Envoie un message "stop"
         MqttMessage stop = new MqttMessage();
         String off = "off";
         stop.setPayload(off.getBytes());

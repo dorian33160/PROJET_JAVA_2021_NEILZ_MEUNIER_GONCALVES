@@ -29,18 +29,18 @@ public void doDemo(String[] args) {
         System.out.println("*** UUID = "+clientID);
         System.out.println("*** Nom Afficheur = "+args[1]);
 
-        String canalaff = "afficheur"+args[1];    //Permet de s'abonner au bon cannal afin de recevoir les bonnes informations
-        String canalhist = "historique"+args[1];  //Permet de s'abonner au bon cannal afin de recevoir les bonnes informations
+        String canalaff = "afficheur"+args[1];          //Permet de s'abonner au bon cannal afin de recevoir les bonnes informations
+        String canalhist = "historique"+args[1];        //Permet de s'abonner au bon cannal afin de recevoir les bonnes informations
 
         client = new MqttClient(uri, clientID, persistence);
 
         client.connect();
         client.setCallback(this);
-        if(args[0].equals("valeur")){   //Si le mot "valeur" est passé en parametres
-            client.subscribe(canalaff); //On s'abonne au canal dédié
+        if(args[0].equals("valeur")){                   //Si le mot "valeur" est passé en parametres
+            client.subscribe(canalaff);                 //On s'abonne au canal dédié
         }
-        if(args[0].equals("historique")){ //Si le mot "historique" est passé en parametres
-            client.subscribe(canalhist); //On s'abonne au canal dédié
+        if(args[0].equals("historique")){               //Si le mot "historique" est passé en parametres
+            client.subscribe(canalhist);                //On s'abonne au canal dédié
         }
         
         
@@ -80,8 +80,8 @@ public void messageArrived(String topic, MqttMessage message) throws Exception {
         }
         
     }
-    if (canal.equals("afficheur")){ //Si on est abbonné à l'afficheur
-        System.out.println("["+topic+"] "+message); //On affiche les valeurs en direct
+    if (canal.equals("afficheur")){                      //Si on est abbonné à l'afficheur
+        System.out.println("["+topic+"] "+message);      //On affiche les valeurs en direct
     }
     
     

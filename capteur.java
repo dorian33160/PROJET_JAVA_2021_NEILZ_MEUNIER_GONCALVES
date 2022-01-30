@@ -44,15 +44,15 @@ public void doDemo(String[] args) throws Exception {
         // Une fois annoncé, il commence à envoyer ses données
         int min=-20;
         int max=40;
-        int valeur = ThreadLocalRandom.current().nextInt(min, max + 1);
+        int valeur = ThreadLocalRandom.current().nextInt(min, max + 1);     // Valeur aléatoire du capteur
         int proba;
         while(true) {
             System.out.println(valeur);
-            String strval = Integer.toString(valeur);
+            String strval = Integer.toString(valeur);                       // Envoi de la valeur aléatoire
             MqttMessage message = new MqttMessage();
             message.setPayload(strval.getBytes());
             client.publish(canalcapt, message);
-            proba = ThreadLocalRandom.current().nextInt(0, 100);
+            proba = ThreadLocalRandom.current().nextInt(0, 100);            // Détermination de la valeur suivante
             if(proba<25) {
                 valeur--;
             }
@@ -76,15 +76,13 @@ public void connectionLost(Throwable cause) {
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
     System.out.println("["+topic+"] "+message);
-    if(topic.toString().equals("annonce")&&message.toString().equals("disponible")) { // Regarde si le message reçu est l'annonce de démarrage d'une centrale
-        client.publish("annonce", annonce);
+    if(topic.toString().equals("annonce")&&message.toString().equals("disponible")) {   // Regarde si le message reçu est l'annonce de démarrage d'une centrale
+        client.publish("annonce", annonce);                                             // Si c'est le cas, le capteur s'annonce à nouveau
         System.out.println("Annonce ok");
     }
 }
 
 @Override
-public void deliveryComplete(IMqttDeliveryToken token) {
-    // System.out.println("Delivery complete...");
-}
+public void deliveryComplete(IMqttDeliveryToken token) {}
 
 }
