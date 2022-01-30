@@ -1,5 +1,3 @@
-// !!!!!!! Mettre la libraire Paho MQTT pour java (org.eclipse.paho.client.mqttv3-1.2.5.jar) dans le même répertoire que vos classes de test.
-
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -26,8 +24,6 @@ public void doDemo(String[] args) throws Exception {
         String uri = "tcp://calixte.ovh:1883";
         String clientID = UUID.randomUUID().toString();
         MemoryPersistence persistence = new MemoryPersistence();
-        // System.out.println("*** uri = "+uri);    // DEBUG MQTT
-        // System.out.println("*** UUID = "+clientID);  // DEBUG MQTT
         client = new MqttClient(uri, clientID, persistence);
         client.connect();
         client.setCallback(this);
@@ -61,8 +57,6 @@ public void doDemo(String[] args) throws Exception {
             }
             TimeUnit.SECONDS.sleep(2);
         }
-
-        // client.disconnect();
     } catch (MqttException e) {
         e.printStackTrace();
     }
@@ -75,7 +69,6 @@ public void connectionLost(Throwable cause) {
 
 @Override
 public void messageArrived(String topic, MqttMessage message) throws Exception {
-    System.out.println("["+topic+"] "+message);
     if(topic.toString().equals("annonce")&&message.toString().equals("disponible")) {   // Regarde si le message reçu est l'annonce de démarrage d'une centrale
         client.publish("annonce", annonce);                                             // Si c'est le cas, le capteur s'annonce à nouveau
         System.out.println("Annonce ok");
